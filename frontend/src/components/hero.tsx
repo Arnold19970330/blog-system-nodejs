@@ -9,11 +9,11 @@ export function Hero() {
 
       <div className="relative max-w-4xl mx-auto text-center">
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 text-balance">
-          Udvozollek a Blogomon
+          Üdvözöllek a blogomon
         </h1>
         <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto text-pretty">
-          Fedezd fel a legujabb gondolatokat, torteneteket es inspiraciokat.
-          Oszd meg a sajat sztoridat a vilaggal.
+          Fedezd fel a legújabb gondolatokat, történeteket és inspirációkat.
+          Oszd meg a saját sztoridat a világgal.
         </p>
       </div>
     </section>

@@ -44,7 +44,7 @@ export const useAuth = () => {
 
       return response.data;
     } catch (err: unknown) {
-      const message = getErrorMessage(err, 'Valami hiba tortent a regisztracio soran.');
+      const message = getErrorMessage(err, 'Valami hiba történt a regisztráció során.');
       setError(message);
       throw err;
     } finally {
@@ -61,13 +61,13 @@ export const useAuth = () => {
 
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
-        const fallbackName = input.email.split('@')[0] || 'Felhasznalo';
+        const fallbackName = input.email.split('@')[0] || 'Felhasználó';
         localStorage.setItem('username', fallbackName);
       }
 
       return response.data;
     } catch (err: unknown) {
-      const message = getErrorMessage(err, 'Hibas email vagy jelszo.');
+      const message = getErrorMessage(err, 'Hibás e-mail vagy jelszó.');
       setError(message);
       throw err;
     } finally {

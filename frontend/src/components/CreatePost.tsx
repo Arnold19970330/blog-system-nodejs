@@ -27,7 +27,7 @@ const CreatePost: React.FC = () => {
           setSelectedCategoryId(list[0]._id);
         }
       } catch {
-        setError('Nem sikerult betolteni a kategoriakat.');
+        setError('Nem sikerült betölteni a kategóriákat.');
       }
     };
 
@@ -40,11 +40,11 @@ const CreatePost: React.FC = () => {
 
     const authorId = getCurrentUserId();
     if (!authorId) {
-      setError('A poszt letrehozashoz be kell jelentkezned.');
+      setError('A poszt létrehozásához be kell jelentkezned.');
       return;
     }
     if (!selectedCategoryId) {
-      setError('Valassz egy kategoriat a poszthoz.');
+      setError('Válassz egy kategóriát a poszthoz.');
       return;
     }
 
@@ -63,11 +63,11 @@ const CreatePost: React.FC = () => {
       if (axios.isAxiosError(err)) {
         const status = err.response?.status;
         if (status === 413) {
-          setError('A feltoltott kep tul nagy. Valassz kisebb kepet.');
+          setError('A feltöltött kép túl nagy. Válassz kisebb képet.');
           return;
         }
       }
-      setError('Nem sikerult letrehozni a posztot. Probald ujra.');
+      setError('Nem sikerült létrehozni a posztot. Próbáld újra.');
     } finally {
       setLoading(false);
     }
@@ -87,7 +87,7 @@ const CreatePost: React.FC = () => {
         setNewCategoryName('');
       }
     } catch {
-      setError('Nem sikerult uj kategoriat letrehozni (lehet, hogy mar letezik).');
+      setError('Nem sikerült új kategóriát létrehozni (lehet, hogy már létezik).');
     }
   };
 
@@ -108,22 +108,22 @@ const CreatePost: React.FC = () => {
       <section className="pt-28 px-4 sm:px-6 lg:px-8 pb-10">
         <div className="max-w-3xl mx-auto">
           <div className="mb-8 text-center">
-            <h1 className="text-4xl font-bold text-white mb-2">Uj bejegyzes letrehozasa</h1>
-            <p className="text-gray-400">Ird meg a kovetkezo blog bejegyzesedet.</p>
+            <h1 className="text-4xl font-bold text-white mb-2">Új bejegyzés létrehozása</h1>
+            <p className="text-gray-400">Írd meg a következő blogbejegyzésedet.</p>
           </div>
 
           <div className="w-full p-8 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label htmlFor="title" className="block text-sm font-medium text-gray-300 mb-2">
-                  Cim
+                  Cím
                 </label>
                 <input
                   id="title"
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  placeholder="Add meg a bejegyzes cimet"
+                  placeholder="Add meg a bejegyzés címét"
                   className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
                   required
                 />
@@ -131,7 +131,7 @@ const CreatePost: React.FC = () => {
 
               <div>
                 <label htmlFor="category" className="block text-sm font-medium text-gray-300 mb-2">
-                  Kategoria
+                  Kategória
                 </label>
                 <select
                   id="category"
@@ -141,7 +141,7 @@ const CreatePost: React.FC = () => {
                   required
                 >
                   {categories.length === 0 ? (
-                    <option value="">Nincs kategoria. Hozz letre egyet lentebb.</option>
+                    <option value="">Nincs kategória. Hozz létre egyet lentebb.</option>
                   ) : (
                     categories.map((category) => (
                       <option key={category._id} value={category._id} className="text-black">
@@ -154,7 +154,7 @@ const CreatePost: React.FC = () => {
 
               <div>
                 <label htmlFor="new-category" className="block text-sm font-medium text-gray-300 mb-2">
-                  Uj kategoria (opcionalis)
+                  Új kategória (opcionális)
                 </label>
                 <div className="flex gap-2">
                   <input
@@ -162,7 +162,7 @@ const CreatePost: React.FC = () => {
                     type="text"
                     value={newCategoryName}
                     onChange={(e) => setNewCategoryName(e.target.value)}
-                    placeholder="Peldaul: Technologia"
+                    placeholder="Például: Technológia"
                     className="flex-1 bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
                   />
                   <button
@@ -170,14 +170,14 @@ const CreatePost: React.FC = () => {
                     onClick={handleCreateCategory}
                     className="px-4 py-3 rounded-xl border border-white/20 text-white hover:bg-white/10 transition-colors"
                   >
-                    Hozzaad
+                    Hozzáad
                   </button>
                 </div>
               </div>
 
               <div>
                 <label htmlFor="image" className="block text-sm font-medium text-gray-300 mb-2">
-                  Kep feltoltese (opcionalis)
+                  Kép feltöltése (opcionális)
                 </label>
                 <input
                   id="image"
@@ -189,7 +189,7 @@ const CreatePost: React.FC = () => {
                 {image && (
                   <img
                     src={image}
-                    alt="Elonezet"
+                    alt="Előnézet"
                     className="mt-3 h-36 w-full object-cover rounded-xl border border-white/10"
                   />
                 )}
@@ -203,7 +203,7 @@ const CreatePost: React.FC = () => {
                   id="content"
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
-                  placeholder="Ird ide a bejegyzes tartalmat..."
+                  placeholder="Írd ide a bejegyzés tartalmát..."
                   rows={8}
                   className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500/50 resize-y"
                   required
@@ -218,14 +218,14 @@ const CreatePost: React.FC = () => {
                   onClick={() => navigate('/home')}
                   className="px-4 py-3 rounded-xl border border-white/20 text-white hover:bg-white/10 transition-colors"
                 >
-                  Megse
+                  Mégse
                 </button>
                 <button
                   type="submit"
                   disabled={loading}
                   className="px-5 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-semibold transition-all disabled:opacity-60"
                 >
-                  {loading ? 'Mentes...' : 'Bejegyzes letrehozasa'}
+                  {loading ? 'Mentés...' : 'Bejegyzés létrehozása'}
                 </button>
               </div>
             </form>

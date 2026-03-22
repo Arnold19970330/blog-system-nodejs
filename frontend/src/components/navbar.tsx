@@ -28,7 +28,7 @@ export function Navbar() {
 
           <div className="hidden md:flex items-center gap-8">
             <Link to="/home" className="text-gray-300 hover:text-white transition-colors">
-              Home
+              Főoldal
             </Link>
             <Link to="/home#posts" className="text-gray-300 hover:text-white transition-colors">
               Posztok
@@ -39,7 +39,7 @@ export function Navbar() {
                 className="inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white transition-colors"
               >
                 <PenSquare className="w-4 h-4 mr-2" />
-                Create Post
+                Új poszt
               </Link>
             )}
             {isLoggedIn ? (
@@ -48,14 +48,14 @@ export function Navbar() {
                 className="border-white/20 text-white hover:bg-white/10"
                 onClick={handleLogout}
               >
-                Logout
+                Kijelentkezés
               </Button>
             ) : (
               <Link
                 to="/"
                 className="inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium border border-white/20 text-white hover:bg-white/10 transition-colors"
               >
-                Login
+                Bejelentkezés
               </Link>
             )}
           </div>
@@ -73,7 +73,7 @@ export function Navbar() {
           <div className="md:hidden py-4 border-t border-white/10">
             <div className="flex flex-col gap-4">
               <Link to="/home" className="text-gray-300 hover:text-white transition-colors">
-                Home
+                Főoldal
               </Link>
               <Link to="/home#posts" className="text-gray-300 hover:text-white transition-colors">
                 Posztok
@@ -84,7 +84,7 @@ export function Navbar() {
                   className="inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white transition-colors w-full"
                 >
                   <PenSquare className="w-4 h-4 mr-2" />
-                  Create Post
+                  Új poszt
                 </Link>
               )}
               {isLoggedIn ? (
@@ -93,14 +93,14 @@ export function Navbar() {
                   className="border-white/20 text-white hover:bg-white/10 w-full"
                   onClick={handleLogout}
                 >
-                  Logout
+                  Kijelentkezés
                 </Button>
               ) : (
                 <Link
                   to="/"
                   className="inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium border border-white/20 text-white hover:bg-white/10 transition-colors w-full"
                 >
-                  Login
+                  Bejelentkezés
                 </Link>
               )}
             </div>

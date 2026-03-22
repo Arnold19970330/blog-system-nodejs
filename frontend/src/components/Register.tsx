@@ -36,9 +36,11 @@ const Register: React.FC = () => {
       {/* Glassmorphism kártya */}
       <div className="relative z-10 w-full max-w-md p-8 mx-4 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">{isLoginView ? 'Welcome Back' : 'Create Account'}</h1>
+          <h1 className="text-4xl font-bold text-white mb-2">
+            {isLoginView ? 'Üdv újra' : 'Fiók létrehozása'}
+          </h1>
           <p className="text-gray-400">
-            {isLoginView ? 'Sign in to continue.' : 'Sign up to start sharing your stories.'}
+            {isLoginView ? 'Jelentkezz be a folytatáshoz.' : 'Regisztrálj, és oszd meg a történeteidet.'}
           </p>
         </div>
         
@@ -50,7 +52,7 @@ const Register: React.FC = () => {
 
         <div className="mt-8 text-center">
           <p className="text-gray-400 text-sm">
-            {isLoginView ? "Don't have an account? " : 'Already have an account? '}
+            {isLoginView ? 'Még nincs fiókod? ' : 'Van már fiókod? '}
             <button
               type="button"
               onClick={() => {
@@ -59,7 +61,7 @@ const Register: React.FC = () => {
               }}
               className="text-purple-400 hover:text-purple-300 font-medium transition-colors"
             >
-              {isLoginView ? 'Create Account' : 'Sign in'}
+              {isLoginView ? 'Regisztráció' : 'Bejelentkezés'}
             </button>
           </p>
         </div>

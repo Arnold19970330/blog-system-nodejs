@@ -4,7 +4,7 @@ import { Hero } from './hero';
 import { BlogGrid } from './blog-grid';
 
 const Home: React.FC = () => {
-  const username = localStorage.getItem('username') || 'Felhasznalo';
+  const username = localStorage.getItem('username') || 'Felhasználó';
 
   return (
     <main className="min-h-screen bg-[#0a0a1a]">

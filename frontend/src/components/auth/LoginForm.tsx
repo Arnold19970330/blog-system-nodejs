@@ -31,7 +31,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ loading, error, onSubmit }) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="relative">
-        <label className="block text-sm font-medium text-gray-300 mb-2">Email Address</label>
+        <label className="block text-sm font-medium text-gray-300 mb-2">E-mail cím</label>
         <div className="relative">
           <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 w-5 h-5" />
           <input
@@ -47,7 +47,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ loading, error, onSubmit }) => {
       </div>
 
       <div className="relative">
-        <label className="block text-sm font-medium text-gray-300 mb-2">Password</label>
+        <label className="block text-sm font-medium text-gray-300 mb-2">Jelszó</label>
         <div className="relative">
           <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 w-5 h-5" />
           <input
@@ -56,7 +56,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ loading, error, onSubmit }) => {
             value={formData.password}
             onChange={handleChange}
             className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-11 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all"
-            placeholder="Enter your password"
+            placeholder="Add meg a jelszavad"
             required
           />
           <button
@@ -76,7 +76,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ loading, error, onSubmit }) => {
         disabled={loading}
         className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-bold py-3 rounded-xl shadow-[0_0_20px_rgba(147,51,234,0.3)] transition-all transform hover:scale-[1.02] active:scale-[0.98]"
       >
-        {loading ? 'Processing...' : 'Sign in'}
+        {loading ? 'Feldolgozás...' : 'Bejelentkezés'}
       </button>
     </form>
   );

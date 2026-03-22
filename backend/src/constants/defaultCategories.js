@@ -1,10 +1,10 @@
 const DEFAULT_CATEGORIES = [
-  { name: 'Technologia', description: 'Tech hirek, fejlesztes es digitalis trendek.' },
-  { name: 'Utazas', description: 'Utazasi elmenyek, tippek es helyajanlok.' },
-  { name: 'Eletmod', description: 'Egeszseg, mindennapi rutinok es inspiracio.' },
-  { name: 'Gasztronomia', description: 'Receptek, etelek es kulinaris otletek.' },
-  { name: 'Kultura', description: 'Konyvek, filmek, muveszet es kulturalis temak.' },
-  { name: 'Sport', description: 'Mozgas, edzes es sporttal kapcsolatos tartalmak.' }
+  { name: 'Technológia', description: 'Tech hírek, fejlesztés és digitális trendek.' },
+  { name: 'Utazás', description: 'Utazási élmények, tippek és helyajánlók.' },
+  { name: 'Életmód', description: 'Egészség, mindennapi rutinok és inspiráció.' },
+  { name: 'Gasztronómia', description: 'Receptek, ételek és kulináris ötletek.' },
+  { name: 'Kultúra', description: 'Könyvek, filmek, művészet és kulturális témák.' },
+  { name: 'Sport', description: 'Mozgás, edzés és sporttal kapcsolatos tartalmak.' }
 ];
 
 module.exports = {

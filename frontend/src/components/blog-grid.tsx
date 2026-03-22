@@ -25,7 +25,7 @@ export function BlogGrid() {
         const data = response.data?.data?.posts || [];
         setPosts(data);
       } catch {
-        setError('Nem sikerult betolteni a bejegyzeseket.');
+        setError('Nem sikerült betölteni a bejegyzéseket.');
       } finally {
         setLoading(false);
       }
@@ -38,9 +38,9 @@ export function BlogGrid() {
     const key = categoryName.toLowerCase();
     if (key.includes('tech')) return 'from-purple-500 to-blue-500';
     if (key.includes('utaz')) return 'from-emerald-500 to-teal-500';
-    if (key.includes('elet')) return 'from-pink-500 to-rose-500';
+    if (key.includes('élet') || key.includes('elet')) return 'from-pink-500 to-rose-500';
     if (key.includes('gasztro')) return 'from-orange-500 to-amber-500';
-    if (key.includes('kultur')) return 'from-indigo-500 to-violet-500';
+    if (key.includes('kultur') || key.includes('kultúr')) return 'from-indigo-500 to-violet-500';
     if (key.includes('sport')) return 'from-cyan-500 to-blue-500';
     return 'from-purple-500 to-blue-500';
   };
@@ -59,19 +59,19 @@ export function BlogGrid() {
 
   const categories = Array.from(
     new Set(
-      posts.map((post) => post.categories?.[0]?.name || 'Altalanos')
+      posts.map((post) => post.categories?.[0]?.name || 'Általános')
     )
   );
   const filterOptions = ['Mind', ...categories];
   const filteredPosts =
     selectedCategory === 'Mind'
       ? posts
-      : posts.filter((post) => (post.categories?.[0]?.name || 'Altalanos') === selectedCategory);
+      : posts.filter((post) => (post.categories?.[0]?.name || 'Általános') === selectedCategory);
 
   return (
     <section id="posts" className="py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-4xl font-bold text-white mb-6">Legujabb bejegyzesek</h2>
+        <h2 className="text-4xl font-bold text-white mb-6">Legújabb bejegyzések</h2>
 
         <div className="flex flex-wrap gap-3 mb-8">
           {filterOptions.map((category) => {
@@ -94,12 +94,12 @@ export function BlogGrid() {
         </div>
 
         {loading ? (
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-gray-300">Betoltes...</div>
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-gray-300">Betöltés...</div>
         ) : error ? (
           <div className="rounded-2xl border border-red-500/30 bg-red-500/10 p-6 text-red-300">{error}</div>
         ) : filteredPosts.length === 0 ? (
           <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-gray-300">
-            Nincs megjelenitheto bejegyzes ebben a kategoriaban.
+            Nincs megjeleníthető bejegyzés ebben a kategóriában.
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -107,7 +107,7 @@ export function BlogGrid() {
               <BlogCard
                 key={post._id}
                 image={post.image}
-                category={post.categories?.[0]?.name || 'Altalanos'}
+                category={post.categories?.[0]?.name || 'Általános'}
                 title={post.title}
                 excerpt={post.content}
                 author={typeof post.author === 'string' ? post.author : post.author?.name || 'Ismeretlen'}
