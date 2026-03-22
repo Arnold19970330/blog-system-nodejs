@@ -1,0 +1,17 @@
+# Backend
+backend/.env
+backend/node_modules/
+backend/package-lock.json
+
+# Frontend
+frontend/node_modules/
+frontend/package-lock.json
+frontend/dist/
+
+# Ha véletlenül a gyökérben is lennének
+.env
+node_modules/
+package-lock.json
+
+# Egyéb
+.DS_Store

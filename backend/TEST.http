@@ -1,0 +1,24 @@
+### Összes poszt lekérése (GET)
+GET http://localhost:3000/posts
+
+###
+
+### Egy konkrét poszt lekérése ID alapján (GET)
+GET http://localhost:3000/posts/1
+
+###
+
+### Új poszt létrehozása (POST)
+
+
+POST http://localhost:3000/posts
+Content-Type: application/json
+
+{
+    "title": "Saját teszt poszt",
+    "content": "Ezt a REST Client-ből küldtem!",
+    "author": "Programozó"
+}
+
+### Poszt törlése
+DELETE http://localhost:3000/posts/1
