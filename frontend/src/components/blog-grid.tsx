@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getPostsRequest } from '../services/postApi';
 import { BlogCard } from './blog-card';
+import { getCurrentUserId } from '../utils/auth';
+import { LoadingState } from './ui/loading-state';
 
 type ApiPost = {
   _id: string;
@@ -8,15 +11,17 @@ type ApiPost = {
   content: string;
   image?: string;
   createdAt: string;
-  author?: { name?: string } | string;
+  author?: { _id?: string; name?: string } | string;
   categories?: Array<{ name?: string }>;
 };
 
 export function BlogGrid() {
+  const navigate = useNavigate();
   const [posts, setPosts] = useState<ApiPost[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('Mind');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const currentUserId = getCurrentUserId();
 
   useEffect(() => {
     const loadPosts = async () => {
@@ -94,7 +99,7 @@ export function BlogGrid() {
         </div>
 
         {loading ? (
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-gray-300">Betöltés...</div>
+          <LoadingState label="Bejegyzések betöltése..." />
         ) : error ? (
           <div className="rounded-2xl border border-red-500/30 bg-red-500/10 p-6 text-red-300">{error}</div>
         ) : filteredPosts.length === 0 ? (
@@ -113,6 +118,9 @@ export function BlogGrid() {
                 author={typeof post.author === 'string' ? post.author : post.author?.name || 'Ismeretlen'}
                 date={formatDate(post.createdAt)}
                 categoryColor={getCategoryColor(post.categories?.[0]?.name || '')}
+                onOpen={() => navigate(`/posts/${post._id}`)}
+                canEdit={typeof post.author !== 'string' && Boolean(currentUserId) && post.author?._id === currentUserId}
+                onEdit={() => navigate(`/posts/${post._id}/edit`)}
               />
             ))}
           </div>

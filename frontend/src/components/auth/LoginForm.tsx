@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Eye, EyeOff, Lock, Mail } from 'lucide-react';
 
 type LoginFormData = {
@@ -70,6 +71,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ loading, error, onSubmit }) => {
       </div>
 
       {error && <p className="text-sm text-red-400">{error}</p>}
+      <div className="text-right -mt-2">
+        <Link to="/forgot-password" className="text-sm text-purple-300 hover:text-purple-200">
+          Elfelejtett jelszó?
+        </Link>
+      </div>
 
       <button
         type="submit"

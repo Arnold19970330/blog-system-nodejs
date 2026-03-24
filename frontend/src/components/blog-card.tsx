@@ -1,5 +1,5 @@
 import { Card, CardContent } from './ui/card';
-import { Calendar, ImageIcon, User } from 'lucide-react';
+import { Calendar, ImageIcon, Pencil, User } from 'lucide-react';
 
 interface BlogCardProps {
   image?: string;
@@ -9,6 +9,9 @@ interface BlogCardProps {
   author: string;
   date: string;
   categoryColor?: string;
+  onOpen?: () => void;
+  canEdit?: boolean;
+  onEdit?: () => void;
 }
 
 export function BlogCard({
@@ -18,10 +21,16 @@ export function BlogCard({
   excerpt,
   author,
   date,
-  categoryColor = 'from-purple-500 to-blue-500'
+  categoryColor = 'from-purple-500 to-blue-500',
+  onOpen,
+  canEdit = false,
+  onEdit
 }: BlogCardProps) {
   return (
-    <Card className="bg-[#16182b]/90 border border-[#2a2d45] hover:border-purple-500/50 transition-all duration-300 overflow-hidden group cursor-pointer shadow-[0_8px_28px_rgba(0,0,0,0.35)]">
+    <Card
+      onClick={onOpen}
+      className="bg-[#16182b]/90 border border-[#2a2d45] hover:border-purple-500/50 transition-all duration-300 overflow-hidden group cursor-pointer shadow-[0_8px_28px_rgba(0,0,0,0.35)]"
+    >
       <div className="relative h-48 bg-gradient-to-b from-[#2a2d45] to-[#1a1d32] flex items-center justify-center overflow-hidden">
         {image ? (
           <img src={image} alt={title} className="absolute inset-0 w-full h-full object-cover" />
@@ -29,6 +38,20 @@ export function BlogCard({
           <ImageIcon className="w-12 h-12 text-gray-500" />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-[#16182b] to-transparent opacity-70" />
+        {canEdit && onEdit && (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onEdit();
+            }}
+            className="absolute cursor-pointer top-4 right-4 inline-flex items-center justify-center rounded-full border border-white/30 bg-black/35 p-2 text-white hover:bg-black/55 transition-colors z-10"
+            aria-label="Poszt szerkesztése"
+            title="Szerkesztés"
+          >
+            <Pencil className="h-4 w-4" />
+          </button>
+        )}
         <span
           className={`absolute top-4 left-4 px-3 py-1 text-xs font-medium text-white rounded-full bg-gradient-to-r ${categoryColor}`}
         >
@@ -53,6 +76,7 @@ export function BlogCard({
             <span>{date}</span>
           </div>
         </div>
+
       </CardContent>
     </Card>
   );

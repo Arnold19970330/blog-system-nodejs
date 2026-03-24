@@ -7,7 +7,7 @@ import RegisterForm from './auth/RegisterForm';
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
-  const [isLoginView, setIsLoginView] = useState(false);
+  const [isLoginView, setIsLoginView] = useState(true);
   const { loading, error, clearError, login, register } = useAuth();
 
   const handleRegisterSubmit = async (data: { name: string; email: string; password: string }) => {

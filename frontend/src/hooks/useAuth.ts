@@ -40,6 +40,8 @@ export const useAuth = () => {
 
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
+        const registeredName = response.data?.data?.user?.name || input.name;
+        localStorage.setItem('username', registeredName || 'Felhasználó');
       }
 
       return response.data;
@@ -61,8 +63,9 @@ export const useAuth = () => {
 
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
+        const backendName = response.data?.data?.user?.name;
         const fallbackName = input.email.split('@')[0] || 'Felhasználó';
-        localStorage.setItem('username', fallbackName);
+        localStorage.setItem('username', backendName || fallbackName);
       }
 
       return response.data;

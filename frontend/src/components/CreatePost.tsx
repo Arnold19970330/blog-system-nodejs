@@ -3,8 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Navbar } from './navbar';
 import { createPostRequest } from '../services/postApi';
-import { getCurrentUserId } from '../utils/auth';
 import { createCategoryRequest, getCategoriesRequest, type Category } from '../services/categoryApi';
+import { compressImageToDataUrl } from '../utils/image';
+import { isRichTextEmpty } from '../utils/html';
+import { RichTextEditor } from './ui/rich-text-editor';
 
 const CreatePost: React.FC = () => {
   const navigate = useNavigate();
@@ -38,13 +40,12 @@ const CreatePost: React.FC = () => {
     e.preventDefault();
     setError('');
 
-    const authorId = getCurrentUserId();
-    if (!authorId) {
-      setError('A poszt létrehozásához be kell jelentkezned.');
-      return;
-    }
     if (!selectedCategoryId) {
       setError('Válassz egy kategóriát a poszthoz.');
+      return;
+    }
+    if (isRichTextEmpty(content)) {
+      setError('A leírás nem lehet üres.');
       return;
     }
 
@@ -55,7 +56,6 @@ const CreatePost: React.FC = () => {
         title,
         content,
         image,
-        author: authorId,
         categories: [selectedCategoryId]
       });
       navigate('/home');
@@ -91,15 +91,16 @@ const CreatePost: React.FC = () => {
     }
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImage(typeof reader.result === 'string' ? reader.result : '');
-    };
-    reader.readAsDataURL(file);
+    try {
+      const compressed = await compressImageToDataUrl(file);
+      setImage(compressed);
+    } catch {
+      setError('Nem sikerült feldolgozni a képet.');
+    }
   };
 
   return (
@@ -196,18 +197,11 @@ const CreatePost: React.FC = () => {
               </div>
 
               <div>
-                <label htmlFor="content" className="block text-sm font-medium text-gray-300 mb-2">
-                  Tartalom
-                </label>
-                <textarea
-                  id="content"
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                  placeholder="Írd ide a bejegyzés tartalmát..."
-                  rows={8}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500/50 resize-y"
-                  required
-                />
+                <label className="block text-sm font-medium text-gray-300 mb-2">Leírás</label>
+                <RichTextEditor value={content} onChange={setContent} />
+                <p className="mt-2 text-xs text-gray-400">
+                  Rich text szerkesztő: félkövér, dőlt, listák, linkek.
+                </p>
               </div>
 
               {error && <p className="text-sm text-red-400">{error}</p>}

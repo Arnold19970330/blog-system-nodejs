@@ -4,8 +4,14 @@ type CreatePostPayload = {
   title: string;
   content: string;
   image?: string;
-  author: string;
   categories: string[];
+};
+
+type UpdatePostPayload = {
+  title?: string;
+  content?: string;
+  image?: string;
+  categories?: string[];
 };
 
 export const createPostRequest = (payload: CreatePostPayload) => {
@@ -18,4 +24,12 @@ export const getPostsRequest = (authorId?: string) => {
   }
 
   return api.get('/posts');
+};
+
+export const getPostByIdRequest = (postId: string) => {
+  return api.get(`/posts/${postId}`);
+};
+
+export const updatePostRequest = (postId: string, payload: UpdatePostPayload) => {
+  return api.patch(`/posts/${postId}`, payload);
 };
