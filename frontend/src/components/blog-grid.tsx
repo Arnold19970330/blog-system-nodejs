@@ -4,6 +4,7 @@ import { getPostsRequest } from '../services/postApi';
 import { BlogCard } from './blog-card';
 import { getCurrentUserId } from '../utils/auth';
 import { LoadingState } from './ui/loading-state';
+import { Search } from 'lucide-react';
 
 type ApiPost = {
   _id: string;
@@ -22,7 +23,9 @@ export function BlogGrid() {
   const [showOnlyMine, setShowOnlyMine] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   const currentUserId = getCurrentUserId();
+  const [ownFilteredPosts, setOwnFilteredPosts] = useState<ApiPost[]>([]);
 
   useEffect(() => {
     const loadPosts = async () => {
@@ -39,6 +42,12 @@ export function BlogGrid() {
 
     loadPosts();
   }, []);
+
+  useEffect(() => {
+    const ownFilteredPosts = posts.filter((post) => post.title.toLowerCase().includes(searchQuery.toLowerCase()));
+    setOwnFilteredPosts(ownFilteredPosts);
+  }, [searchQuery, posts]);
+    
 
   const getCategoryColor = (categoryName: string) => {
     const key = categoryName.toLowerCase();
@@ -76,7 +85,7 @@ export function BlogGrid() {
   const filterOptions = ['Mind', ...categories];
   const filteredPosts =
     selectedCategory === 'Mind'
-      ? sourcePosts
+      ? searchQuery ? ownFilteredPosts : sourcePosts
       : sourcePosts.filter((post) => (post.categories?.[0]?.name || 'Általános') === selectedCategory);
 
   return (
@@ -111,14 +120,18 @@ export function BlogGrid() {
           </p>
         </div>
 
-        <div className="flex flex-wrap gap-3 mb-8">
-          {filterOptions.map((category) => {
+        <div className="flex flex-wrap justify-between gap-3 mb-8">
+         <div className="flex flex-wrap gap-3">
+         {filterOptions.map((category) => {
             const isActive = selectedCategory === category;
             return (
               <button
                 key={category}
                 type="button"
-                onClick={() => setSelectedCategory(category)}
+                onClick={() => {
+                  setSelectedCategory(category);
+                  setSearchQuery('');
+                }}
                 className={`px-4 py-2 rounded-xl border text-sm transition-colors ${
                   isActive
                     ? 'bg-gradient-to-r from-purple-500 to-blue-500 border-transparent text-white'
@@ -129,15 +142,26 @@ export function BlogGrid() {
               </button>
             );
           })}
+         </div>
+          <div className="flex items-center gap-2">
+            <input type="text" placeholder="Keresés..." className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-11 text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+            <button type="button" className="bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white hover:bg-white/10 transition-colors" onClick={() => setSearchQuery('')} onKeyDown={(e) => e.key === 'Enter' && setSearchQuery('')} disabled={!searchQuery} aria-label="Keresés" onChange={(e) => setSearchQuery(e.target.value)}>
+              <Search className="w-4 h-4" />
+            </button>
+          </div>
         </div>
 
         {loading ? (
           <LoadingState label="Bejegyzések betöltése..." />
         ) : error ? (
           <div className="rounded-2xl border border-red-500/30 bg-red-500/10 p-6 text-red-300">{error}</div>
-        ) : filteredPosts.length === 0 ? (
+        ) : filteredPosts.length === 0 && !searchQuery ? (
           <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-gray-300">
             Nincs megjeleníthető bejegyzés ebben a kategóriában.
+          </div>
+          ) : filteredPosts.length === 0 && searchQuery ? (
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-gray-300">
+            Nem találtam egyet sem a keresésnek megfelelően.
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
