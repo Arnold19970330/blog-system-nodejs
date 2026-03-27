@@ -19,6 +19,7 @@ export function BlogGrid() {
   const navigate = useNavigate();
   const [posts, setPosts] = useState<ApiPost[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('Mind');
+  const [showOnlyMine, setShowOnlyMine] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const currentUserId = getCurrentUserId();
@@ -62,21 +63,53 @@ export function BlogGrid() {
     }
   };
 
+  const getAuthorId = (post: ApiPost) => (typeof post.author === 'string' ? post.author : post.author?._id);
+  const sourcePosts = showOnlyMine && currentUserId
+    ? posts.filter((post) => getAuthorId(post) === currentUserId)
+    : posts;
+
   const categories = Array.from(
     new Set(
-      posts.map((post) => post.categories?.[0]?.name || 'Általános')
+      sourcePosts.map((post) => post.categories?.[0]?.name || 'Általános')
     )
   );
   const filterOptions = ['Mind', ...categories];
   const filteredPosts =
     selectedCategory === 'Mind'
-      ? posts
-      : posts.filter((post) => (post.categories?.[0]?.name || 'Általános') === selectedCategory);
+      ? sourcePosts
+      : sourcePosts.filter((post) => (post.categories?.[0]?.name || 'Általános') === selectedCategory);
 
   return (
     <section id="posts" className="py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-4xl font-bold text-white mb-6">Legújabb bejegyzések</h2>
+
+        <div className="mb-4 inline-flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-2">
+          <button
+            type="button"
+            role="switch"
+            aria-checked={showOnlyMine}
+            onClick={() => {
+              if (!currentUserId) return;
+              setShowOnlyMine((prev) => !prev);
+              setSelectedCategory('Mind');
+            }}
+            disabled={!currentUserId}
+            className={`relative h-6 w-11 rounded-full transition-colors cursor-pointer ${
+              showOnlyMine ? 'bg-gradient-to-r from-purple-500 to-blue-500' : 'bg-white/15'
+            } ${!currentUserId ? 'opacity-50 cursor-not-allowed' : ''}`}
+          >
+            <span
+              className={`absolute top-0.5 h-5 w-5 rounded-full bg-white transition-transform ${
+                showOnlyMine ? '-translate-x-5' : '-translate-x-0.5'
+              }`}
+            />
+          </button>
+          <p className="text-sm text-gray-200">
+            Saját posztok
+            {!currentUserId && <span className="text-gray-400"> (bejelentkezés szükséges)</span>}
+          </p>
+        </div>
 
         <div className="flex flex-wrap gap-3 mb-8">
           {filterOptions.map((category) => {
